@@ -27,8 +27,19 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            // TODO implement the method
+            CartLine newCartLine = new CartLine(0, product, quantity);
+            if (GetCartLineList().Contains(newCartLine))
+            {
+                GetCartLineList()[GetCartLineList().IndexOf(newCartLine)].Quantity+=1;
+
+            }
+            else
+            {
+                GetCartLineList().Add(newCartLine);
+            }
+            
         }
+        
 
         /// <summary>
         /// Removes a product form the cart
@@ -83,8 +94,15 @@ namespace P2FixAnAppDotNetCode.Models
 
     public class CartLine
     {
+
         public int OrderLineId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
+        public CartLine(int orderLineId, Product product, int quantity)
+        {
+            OrderLineId = orderLineId;
+            Product = product;
+            Quantity = quantity;
+        }
     }
 }
