@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace P2FixAnAppDotNetCode.Models
@@ -27,18 +28,36 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            CartLine newCartLine = new CartLine(0, product, quantity);
-            if (GetCartLineList().Contains(newCartLine))
+            try
             {
-                GetCartLineList()[GetCartLineList().IndexOf(newCartLine)].Quantity+=1;
+                List<CartLine> cartline = Lines.ToList();
+                //foreach (CartLine line in cartline)
+                //{
+                //    if (line.Product == product)
+                //    {
+                //        line.Quantity+=quantity;
+                //        return;
+                //    }
+                //}
+                var existing = Lines.Where(l => l.Product == product).FirstOrDefault();
+                CartLine newCartLine;
+                if (existing == null || this.Lines.Count()==0 )
+                {
+                    newCartLine = new CartLine(Lines.Count() + 1, product, quantity);
+                    this.Lines.ToList().Add(newCartLine);
+                }
+                else { 
+                    existing.Quantity += quantity;
+                }
 
             }
-            else
+            catch
             {
-                GetCartLineList().Add(newCartLine);
+                throw;
             }
-            
         }
+            
+        
         
 
         /// <summary>
