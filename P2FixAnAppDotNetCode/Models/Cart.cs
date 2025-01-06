@@ -10,7 +10,7 @@ namespace P2FixAnAppDotNetCode.Models
     public class Cart : ICart
     {
         /// <summary>
-        /// Read-only property for display only
+        /// Read_only for Display
         /// </summary>
         public IEnumerable<CartLine> Lines => GetCartLineList();
 
@@ -18,7 +18,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// Return the actual cartline list
         /// </summary>
         /// <returns></returns>
-        private List<CartLine> GetCartLineList()
+        public List<CartLine> GetCartLineList()
         {
             return new List<CartLine>();
         }
@@ -30,24 +30,20 @@ namespace P2FixAnAppDotNetCode.Models
         {
             try
             {
-                List<CartLine> cartline = Lines.ToList();
-                //foreach (CartLine line in cartline)
-                //{
-                //    if (line.Product == product)
-                //    {
-                //        line.Quantity+=quantity;
-                //        return;
-                //    }
-                //}
-                var existing = Lines.Where(l => l.Product == product).FirstOrDefault();
+
+                var existing = FindProductInCartLines(product.Id);
                 CartLine newCartLine;
-                if (existing == null || this.Lines.Count()==0 )
+                if (existing == null || GetCartLineList().Count() == 0)
                 {
-                    newCartLine = new CartLine(Lines.Count() + 1, product, quantity);
-                    this.Lines.ToList().Add(newCartLine);
+                    newCartLine = new CartLine(GetCartLineList().Count() + 1, product, quantity);
+                    GetCartLineList().Add(newCartLine);
+
                 }
-                else { 
-                    existing.Quantity += quantity;
+                else
+                {
+                    newCartLine = GetCartLineList().Where(l => l.Product == product).FirstOrDefault();
+                    newCartLine.Quantity += quantity;
+
                 }
 
             }
@@ -89,8 +85,9 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public Product FindProductInCartLines(int productId)
         {
-            // TODO implement the method
-            return null;
+            var existing = GetCartLineList().Where(l => l.Product.Id == productId).FirstOrDefault();
+            if(existing == null) {  return null; } else { return existing.Product; }
+
         }
 
         /// <summary>
@@ -98,7 +95,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public CartLine GetCartLineByIndex(int index)
         {
-            return Lines.ToArray()[index];
+            return Lines.ToList()[index];
         }
 
         /// <summary>
