@@ -7,8 +7,8 @@ namespace P2FixAnAppDotNetCode.Controllers
 {
     public class CartController : Controller
     {
-        public ICart _cart;
-        public IProductService _productService;
+        private readonly ICart _cart;
+        private readonly IProductService _productService;
 
         public CartController(ICart pCart, IProductService productService)
         {

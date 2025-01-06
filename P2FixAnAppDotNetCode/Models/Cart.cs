@@ -9,6 +9,7 @@ namespace P2FixAnAppDotNetCode.Models
     /// </summary>
     public class Cart : ICart
     {
+        public List<CartLine> cartLineList = new List<CartLine>();
         /// <summary>
         /// Read_only for Display
         /// </summary>
@@ -20,7 +21,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// <returns></returns>
         public List<CartLine> GetCartLineList()
         {
-            return new List<CartLine>();
+            return cartLineList;
         }
 
         /// <summary>
@@ -33,15 +34,17 @@ namespace P2FixAnAppDotNetCode.Models
 
                 var existing = FindProductInCartLines(product.Id);
                 CartLine newCartLine;
-                if (existing == null || GetCartLineList().Count() == 0)
+                List<CartLine> cartLines = GetCartLineList();
+                if (existing == null || cartLines.Count() == 0)
                 {
-                    newCartLine = new CartLine(GetCartLineList().Count() + 1, product, quantity);
-                    GetCartLineList().Add(newCartLine);
+                    newCartLine = new CartLine(cartLines.Count()+1, product, quantity);
+                    
+                    cartLines.Add(newCartLine);
 
                 }
                 else
                 {
-                    newCartLine = GetCartLineList().Where(l => l.Product == product).FirstOrDefault();
+                    newCartLine = GetCartLineList().FirstOrDefault(l => l.Product.Id == product.Id);
                     newCartLine.Quantity += quantity;
 
                 }
