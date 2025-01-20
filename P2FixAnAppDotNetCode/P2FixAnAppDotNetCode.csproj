@@ -28,7 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Resources\Models\Order.en.resx" />
+    <EmbeddedResource Remove="Resources\Controllers\OrderController.es.resx" />
+    <EmbeddedResource Remove="Resources\Models\ViewModels\Order.es.resx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Resources\Controllers\OrderController.es.resx" />
+    <None Include="Resources\Models\ViewModels\Order.es.resx" />
     <None Include="Resources\Models\ViewModels\Order.en.resx" />
   </ItemGroup>
 

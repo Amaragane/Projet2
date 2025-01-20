@@ -9,16 +9,19 @@ namespace P2FixAnAppDotNetCode.Models
     /// </summary>
     public class Cart : ICart
     {
-        public List<CartLine> cartLineList = new List<CartLine>();
+        //Nouveau membre de la classe Cart
+        public List<CartLine> cartLineList = new List<CartLine>(); 
         /// <summary>
         /// Read_only for Display
         /// </summary>
+        
         public IEnumerable<CartLine> Lines => GetCartLineList();
 
         /// <summary>
         /// Return the actual cartline list
         /// </summary>
         /// <returns></returns>
+        // Passage de private a public et retour de cartLineList au lieu de "List<CartLine> = new List<CartLine>()"
         public List<CartLine> GetCartLineList()
         {
             return cartLineList;
